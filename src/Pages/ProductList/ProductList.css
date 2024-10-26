@@ -1,6 +1,12 @@
 .productList {
-
   flex: 4;
+}
+
+.productListHeading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .productListTable {
@@ -31,4 +37,25 @@
 .productListDelete {
   color: red;
   cursor: pointer;
+}
+
+.productListContainerSortButtons {
+  margin-left: 50px;
+}
+
+.productListContainerSortButtons button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.productListSortButton {
+  background-color: #d3f3c6;
+}
+
+.productListContainerSortButtons button:hover {
+  background-color: #d3f3c6;
+  color: #555;
 }

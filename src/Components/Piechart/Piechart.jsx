@@ -1,10 +1,10 @@
-import { PieChart, Pie, Cell, Tooltip } from "recharts"
-import "./Piechart.css"
-import { getPieData } from "../../utils.js"
+import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import "./Piechart.css";
+import { getPieData, getPieDataTop5Least } from "../../utils.js";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF0000"]
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#FF0000"];
 
-const RADIAN = Math.PI / 180
+const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({
   cx,
   cy,
@@ -14,9 +14,9 @@ const renderCustomizedLabel = ({
   percent,
   index,
 }) => {
-  const radius = innerRadius + (outerRadius - innerRadius) * 0.5
-  const x = cx + radius * Math.cos(-midAngle * RADIAN)
-  const y = cy + radius * Math.sin(-midAngle * RADIAN)
+  const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
     <text
@@ -28,11 +28,13 @@ const renderCustomizedLabel = ({
     >
       {`${(percent * 100).toFixed(0)}%`}
     </text>
-  )
-}
+  );
+};
 
 function Piechart({ data, title, dataKey }) {
-  let chartData = getPieData(data, dataKey)
+  let chartData = title.includes("Least")
+    ? getPieDataTop5Least(data, dataKey)
+    : getPieData(data, dataKey);
   return (
     <div className="piechart">
       <h3 className="piechartTitle">{title}</h3>
@@ -53,7 +55,7 @@ function Piechart({ data, title, dataKey }) {
         <Tooltip />
       </PieChart>
     </div>
-  )
+  );
 }
 
-export default Piechart
+export default Piechart;

@@ -1,0 +1,8 @@
+.topKResultsWrapper {
+  width: 200px;
+  background-color: rgb(245, 245, 245);
+  margin-left: 50px;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}

@@ -1,8 +1,11 @@
-import "./ProductList.css"
-import { data } from "../../result"
-import { AgGridReact } from "ag-grid-react"
-import "ag-grid-community/dist/styles/ag-grid.css"
-import "ag-grid-community/dist/styles/ag-theme-alpine.css"
+import "./ProductList.css";
+import { data } from "../../result";
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import { getPieData, getPieDataTop5Least } from "../../utils";
+import { useState } from "react";
+import TopKResults from "../../Components/TopKResults";
 
 const columns = [
   {
@@ -61,12 +64,57 @@ const columns = [
     sortable: true,
     floatingFilter: true,
   },
-]
+];
 
 function ProductList() {
+  const [result, setResult] = useState([]);
+  const [toggleTop5, setToggleTop5] = useState(false);
+  const [toggleLeast5, setToggleLeast5] = useState(false);
+
+  const handleData = (type) => {
+    if (type === "top") {
+      console.log("top");
+      setResult(
+        getPieData(data, "requirement_in_mt_").map((item) => item.name)
+      );
+      setToggleTop5((prev) => !prev);
+      setToggleLeast5(false);
+    } else {
+      setResult(
+        getPieDataTop5Least(data, "availability_in_mt_").map(
+          (item) => item.name
+        )
+      );
+      setToggleLeast5((prev) => !prev);
+      setToggleTop5(false);
+    }
+  };
+
   return (
     <div className="productList">
-      <div>ProductList</div>
+      <div className="productListHeading">ProductList</div>
+      <div className="productListContainerSortButtons">
+        <button
+          className={toggleTop5 && "productListSortButton"}
+          onClick={() => handleData("top")}
+        >
+          Top 5 Required Products
+        </button>
+        <button
+          className={toggleLeast5 && "productListSortButton"}
+          onClick={() => handleData("least")}
+        >
+          Top 5 Least Available Products
+        </button>
+      </div>
+      {toggleTop5 &&
+        result.map((item, index) => (
+          <TopKResults item={item} index={index} key={index} />
+        ))}
+      {toggleLeast5 &&
+        result.map((item, index) => (
+          <TopKResults item={item} index={index} key={index} />
+        ))}
 
       <div className="productListTable">
         <div className="ag-theme-alpine" style={{ width: "100%" }}>
@@ -78,7 +126,7 @@ function ProductList() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default ProductList
+export default ProductList;
